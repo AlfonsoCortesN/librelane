@@ -1,0 +1,108 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+# Based on https://github.com/mole99/greyhound-ihp by Leo Moser
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    # IO pads are used instead of pins
+    OpenROAD.GlobalPlacementSkipIO: null
+    OpenROAD.IOPlacement: null
+    +OpenROAD.Floorplan: OpenROAD.Padring
+
+DESIGN_NAME: test_top
+CLOCK_PERIOD: 25
+CLOCK_NET: clk
+
+LIB:
+  nom_typ_1p20V_25C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_typ_1p2V_3p3V_25C.lib
+  nom_fast_1p32V_m40C: 
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_fast_1p32V_3p6V_m40C.lib
+  nom_slow_1p08V_125C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_slow_1p08V_3p0V_125C.lib
+
+VERILOG_FILES:
+- dir::test.v
+- pdk_dir::libs.ref/sg13g2_io/verilog/sg13g2_io.v
+
+# Floorplanning
+FP_SIZING: absolute
+DIE_AREA:  [   0.00,   0.00, 1300.00, 1020.00 ]
+CORE_AREA: [ 365, 365, 935, 655 ]
+
+EXTRA_GDS:
+- pdk_dir::libs.ref/sg13g2_io/gds/sg13g2_io.gds
+- dir::ihp-sg13g2/bondpad_70x70.gds
+EXTRA_LEFS:
+- pdk_dir::libs.ref/sg13g2_io/lef/sg13g2_io.lef
+- dir::ihp-sg13g2/bondpad_70x70.lef
+
+# Padring
+PAD_TCL: dir::pad.tcl
+PAD_IO_SOUTH: [
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[0\\].sg13g2_IOPad_in_A"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[1\\].sg13g2_IOPad_in_A"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[2\\].sg13g2_IOPad_in_A"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[3\\].sg13g2_IOPad_in_A"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[0\\].sg13g2_IOPad_in_B"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[1\\].sg13g2_IOPad_in_B"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[2\\].sg13g2_IOPad_in_B"],
+    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[3\\].sg13g2_IOPad_in_B"],
+]
+PAD_IO_EAST: [
+    [sg13g2_IOPadVdd,           sg13g2_IOPad_vdd],
+    [sg13g2_IOPadVss,           sg13g2_IOPad_vss],
+    [sg13g2_IOPadIOVdd,         sg13g2_IOPad_vddio],
+    [sg13g2_IOPadIOVss,         sg13g2_IOPad_vssio],
+]
+PAD_IO_NORTH: [
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[0\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[1\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[2\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[3\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[4\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[5\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[6\\].sg13g2_IOPad_out"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen2\\[7\\].sg13g2_IOPad_out"],
+]
+PAD_IO_WEST: [
+    [sg13g2_IOPadIn,            sg13g2_IOPad_clock],
+    [sg13g2_IOPadIn,            sg13g2_IOPad_reset],
+    [sg13g2_IOPadIn,            sg13g2_IOPad_start],
+]
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+FP_PDN_CFG: dir::pdn.tcl
+
+# SDC
+PNR_SDC_FILE: dir::constraint.sdc
+SIGNOFF_SDC_FILE: dir::constraint.sdc
+FALLBACK_SDC: dir::constraint.sdc
+
+IGNORE_DISCONNECTED_MODULES:
+- bondpad_70x70
+
+MAGIC_EXT_USE_GDS: false
+# The IO cells do not extract properly yet
+MAGIC_EXT_ABSTRACT_CELLS:
+- bondpad_70x70
+- sg13g2_IOPadInOut30mA
+- sg13g2_IOPadIn
+- sg13g2_IOPadOut30mA
+- sg13g2_IOPadIOVdd
+- sg13g2_IOPadIOVss
+- sg13g2_IOPadVss
+- sg13g2_IOPadVdd
+

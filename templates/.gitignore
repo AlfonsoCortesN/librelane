@@ -1,0 +1,19 @@
+
+# IDEs
+*/.vscode/
+
+# Python
+__pycache__
+
+# Nix
+result
+
+# Flow artefacts
+*.log
+*.tar.gz
+/*.lef
+/*.def
+logs/
+*/librelane_run
+*/runs
+

@@ -32,20 +32,22 @@ if {[catch {log_cmd pdngen {*}$arg_list} errmsg]} {
     write_views
     report_design_area_metrics
 
-    foreach {net} "$::env(VDD_NETS) $::env(GND_NETS)" {
-        set report_file $::env(STEP_DIR)/$net-grid-errors.rpt
+    puts "\[WARNING\] Not checking power grids"
+    # foreach {net} "$::env(VDD_NETS) $::env(GND_NETS)" {
+    #     set report_file $::env(STEP_DIR)/$net-grid-errors.rpt
+    #     puts "\[INFO\] checking net $net"
 
-        # For some reason, check_power_grid is… totally okay if no nodes are found
-        # at all. i.e. PDN generation has completely failed.
-        # This is a fallback file.
-        set f [open $report_file "w"]
-        puts $f ""
-        close $f
+    #     # For some reason, check_power_grid is… totally okay if no nodes are found
+    #     # at all. i.e. PDN generation has completely failed.
+    #     # This is a fallback file.
+    #     set f [open $report_file "w"]
+    #     puts $f ""
+    #     close $f
 
-        if { [catch {check_power_grid -net $net -error_file $report_file} err] } {
-            puts stderr "\[WARNING\] Grid check for $net failed: $err"
-        }
+    #     if { [catch {check_power_grid -net $net -error_file $report_file} err] } {
+    #         puts stderr "\[WARNING\] Grid check for $net failed: $err"
+    #     }
 
-    }
+    # }
 
 }

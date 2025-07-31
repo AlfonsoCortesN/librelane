@@ -1171,6 +1171,61 @@ def _migrate_ppl_mode(migrated):
     return migrated
 
 
+# Custom steps
+
+@Step.factory.register()
+class Padring(OpenROADStep):
+    """
+    Custom step that assembles a padring on a floor-planned ODB file using OpenROAD's built-in pad placer.
+    """
+
+    id = "OpenROAD.Padring"
+    name = "Padring Generation"
+
+    config_vars = OpenROADStep.config_vars + [
+        Variable(
+            "PAD_TCL",
+            Optional[Path],
+            "A custom script to generate padring.",
+        ),
+        Variable(
+            "BONDPAD_LEF",
+            Optional[Path],
+            "Path to the bondpad lef file.",
+        ),
+        Variable(
+            "PAD_IO_SOUTH",
+            Optional[List[Tuple[Optional[str], Optional[str]]]],
+            "The IO pad cell name and cell instance tuples for the south row.",
+        ),
+        Variable(
+            "PAD_IO_EAST",
+            Optional[List[Tuple[Optional[str], Optional[str]]]],
+            "The IO pad cell name and cell instance tuples for the east row.",
+        ),
+        Variable(
+            "PAD_IO_NORTH",
+            Optional[List[Tuple[Optional[str], Optional[str]]]],
+            "The IO pad cell name and cell instance tuples for the north row.",
+        ),
+        Variable(
+            "PAD_IO_WEST",
+            Optional[List[Tuple[Optional[str], Optional[str]]]],
+            "The IO pad cell name and cell instance tuples for the west row.",
+        ),
+    ]
+
+    def get_script_path(self):
+        return self.config["PAD_TCL"]
+
+    def run(self, state_in: State, **kwargs) -> Tuple[ViewsUpdate, MetricsUpdate]:
+        if self.config["PAD_TCL"] is None:
+            info(f"PAD_TCL is Null. Skipping '{self.id}'…")
+            return {}, {}
+        info(f"Running custom step '{self.id}'…")
+        return super().run(state_in, **kwargs)
+
+
 @Step.factory.register()
 class IOPlacement(OpenROADStep):
     """
