@@ -462,6 +462,11 @@ class SpiceExtraction(MagicStep):
             + "the design. Matches are abstracted (black-boxed) during SPICE extraction.",
         ),
         Variable(
+            "EXTRA_LEFS_NO_OBS",
+            Optional[List[Path]],
+            "Specifies no-obstruction versions of LEF files to be loaded in spice extraction.",
+        ),
+        Variable(
             "MAGIC_NO_EXT_UNIQUE",
             bool,
             "Enables connections by label in LVS by skipping `extract unique` in Magic extractions.",

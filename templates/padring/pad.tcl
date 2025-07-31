@@ -142,6 +142,11 @@ place_io_fill -row IO_SOUTH {*}$::env(PAD_FILLERS)
 place_io_fill -row IO_EAST {*}$::env(PAD_FILLERS)
 place_io_fill -row IO_NORTH {*}$::env(PAD_FILLERS)
 place_io_fill -row IO_WEST {*}$::env(PAD_FILLERS)
+# rename nets before placing bondpads (which generates ports)
+add_global_connection -net {VDD} -pin_pattern {^vdd$} -power
+add_global_connection -net {VSS} -pin_pattern {^vss$} -ground
+add_global_connection -net {IOVDD} -pin_pattern {^iovdd$} -power
+add_global_connection -net {IOVSS} -pin_pattern {^iovss$} -ground
 connect_by_abutment
 
 # Place bondpads

@@ -17,7 +17,11 @@ add_global_connection -net {VSS} -pin_pattern {^vss$} -ground
 # padframe io power pins
 add_global_connection -net {IOVDD} -pin_pattern {^iovdd$} -power
 add_global_connection -net {IOVSS} -pin_pattern {^iovss$} -ground
-# add_global_connection -inst_pattern sg13g2_IOPad_clk -net clk -pin_pattern p2c
+# supply pads power bondpads
+add_global_connection -net {VDD} -inst_pattern {^IO_BOND.*_vdd$} -pin_pattern {pad} -power
+add_global_connection -net {VSS} -inst_pattern {^IO_BOND.*_vss$} -pin_pattern {pad} -ground
+add_global_connection -net {IOVDD} -inst_pattern {^IO_BOND.*_vddio$} -pin_pattern {pad} -power
+add_global_connection -net {IOVSS} -inst_pattern {^IO_BOND.*_vssio$} -pin_pattern {pad} -ground
 global_connect
 
 

@@ -42,10 +42,17 @@ proc read_macro_lef {} {
 }
 
 proc read_extra_lef {} {
-    if { [info exist ::env(EXTRA_LEFS)] } {
-        foreach lef_file $::env(EXTRA_LEFS) {
+    if { [info exist ::env(EXTRA_LEFS_NO_OBS)] } {
+        foreach lef_file $::env(EXTRA_LEFS_NO_OBS) {
             puts "> lef read $lef_file"
             lef read $lef_file
+        }
+    } else {
+        if { [info exist ::env(EXTRA_LEFS)] } {
+            foreach lef_file $::env(EXTRA_LEFS) {
+                puts "> lef read $lef_file"
+                lef read $lef_file
+            }
         }
     }
 }

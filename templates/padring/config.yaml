@@ -44,6 +44,9 @@ EXTRA_GDS:
 EXTRA_LEFS:
 - pdk_dir::libs.ref/sg13g2_io/lef/sg13g2_io.lef
 - dir::ihp-sg13g2/bondpad_70x70.lef
+EXTRA_LEFS_NO_OBS:
+- dir::ihp-sg13g2/sg13g2_io_noobs.lef
+- dir::ihp-sg13g2/bondpad_70x70.lef
 
 # Padring
 PAD_TCL: dir::pad.tcl
