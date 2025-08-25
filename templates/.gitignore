@@ -16,7 +16,7 @@ result
 logs/
 */librelane_run
 */runs
-*.gds
 *.ext
 *.spice
 *.out
+*.mag

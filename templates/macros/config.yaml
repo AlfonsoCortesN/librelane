@@ -1,0 +1,83 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+# Based on https://github.com/mole99/greyhound-ihp by Leo Moser
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    Magic.DRC: Null
+    KLayout.DRC: Null
+
+DESIGN_NAME: test
+CLOCK_PERIOD: 25
+CLOCK_NET: clk
+
+LIB:
+  nom_typ_1p20V_25C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+  nom_fast_1p32V_m40C: 
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+  nom_slow_1p08V_125C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+
+VERILOG_FILES:
+- dir::test.v
+
+# Floorplanning
+FP_SIZING: absolute
+DIE_AREA:  [   0.00,   0.00, 500.00, 500.00 ]
+CORE_AREA: [ 50, 50, 450, 450 ]
+FP_PIN_ORDER_CFG: dir::pin_order.cfg
+
+#EXTRA_GDS:
+#EXTRA_LEFS:
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+FP_PDN_CFG: dir::pdn.tcl
+
+FP_OBSTRUCTIONS:
+- [110, 120, 210, 220]
+#PDN_OBSTRUCTIONS:
+#- [TopMetal2, 110, 120, 200, 400]
+#- [TopMetal1, 110, 120, 200, 400]
+ROUTING_OBSTRUCTIONS:
+- [TopMetal2, 110, 120, 210, 220]
+- [TopMetal1, 110, 120, 210, 220]
+- [Metal5, 110, 120, 210, 220]
+- [Metal4, 110, 120, 210, 220]
+- [Metal3, 110, 120, 210, 220]
+- [Metal2, 110, 120, 210, 220]
+- [Metal1, 110, 120, 210, 220]
+ 
+MACROS:
+  my_cell:
+    gds:
+      - dir::my_macro/my_cell.gds
+    lef:
+      - dir::my_macro/my_cell.lef
+    nl:
+      - dir::my_macro/my_cell.v
+#    lib:
+#      "nom_typ_1p20V_25C":
+#        - dir::my_macro/my_cell_typ_1p2V_3p3V_25C.lib
+#      "nom_fast_1p32V_m40C":
+#        - dir::my_macro/my_cell_fast_1p32V_3p6V_m40C.lib
+#      "nom_slow_1p08V_125C":
+#        - dir::my_macro/my_cell_slow_1p08V_3p0V_125C.lib
+    instances:
+      DUT:
+        location: [110, 120]
+        orientation: N
+
+PDN_MACRO_CONNECTIONS:
+  - "DUT vdd vss vdd! vss!"
+  
+  

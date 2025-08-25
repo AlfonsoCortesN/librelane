@@ -1,9 +1,7 @@
 
-# Template project with padring
+# Template project with macro
 
-Before starting, it is neccesary to replace the IHP-sg13g2 configuration file with the one provided in `/ihp-sg13g2_config` to declare PDK variables that are not yet in the main branch of the PDK.
-
-Then copy this folder to `librelane/designs/<your_project>` and from there you can run it with `librelane config.yaml -p ihp-sg13g2`. 
+Copy this folder to `librelane/designs/<your_project>` and from there you can run it with `librelane config.yaml -p ihp-sg13g2`. 
 If LibreLane fails to find the pdk, add options `--manual-pdk --pdk-root <directory>`.
 
 Replace `test.v` with your source files and update `config.yaml` and `constraint.sdc`. The main variables that you might need to change are:
@@ -11,4 +9,9 @@ Replace `test.v` with your source files and update `config.yaml` and `constraint
 - VERILOG_FILES:	list of source file paths (including pads)
 - DIE_AREA:			total area coordinates
 - CORE_AREA:		design area coordinates (where the standard cells will be placed)
-- PAD_IO_xxx:		4 lists with pairs `[pad_type, instance_name]`
+- FP_OBSTRUCTIONS:	placement obstructions
+- MACROS:			macro master and instances declaration (with paths to GDS, LEF and netlist) 
+- ROUTING_OBSTRUCTIONS:		blocks routing in specific layers
+- PDN_MACRO_CONNECTIONS:	macro power supply port names
+
+TODO: add macro `.lib` files
