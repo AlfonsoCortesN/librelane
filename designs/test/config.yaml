@@ -1,0 +1,65 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+# TinyRocket RISC-V core generated using Chipyard
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    Magic.DRC: Null
+    KLayout.DRC: Null
+    Checker.DisconnectedPins: Null
+
+DESIGN_NAME: topmodule
+CLOCK_PERIOD: 25
+CLOCK_NET: clock_uncore
+
+VERILOG_DEFINES:
+- FUNCTIONAL
+- SYNTHESIS
+
+# Floorplanning
+FP_SIZING: absolute
+DIE_AREA:  [   0,   0, 1400, 2400 ]
+CORE_AREA: [ 365, 365, 1035, 2035 ]
+FP_MACRO_HORIZONTAL_HALO: 10
+FP_MACRO_VERTICAL_HALO: 5
+FP_CORE_UTIL: 40
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+PDN_CFG: dir::pdn.tcl
+
+MACROS:
+  RM_IHPSG13_1P_64x64_c2_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_64x64_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_64x64_c2_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_64x64_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      mem_0_0:
+        location: [498.78, 500]
+        orientation: W
+
+PDN_MACRO_CONNECTIONS:
+  - "mem_0_0 VDD VSS VDD! VSS!"
+  - "mem_0_0 VDD VSS VDDARRAY! VSS!"
+
+
+VERILOG_FILES:
+- dir::top.v

@@ -41,11 +41,11 @@ LINTER_ERROR_ON_LATCH: False
 
 # Floorplanning
 FP_SIZING: absolute
-DIE_AREA:  [   0.00,   0.00, 2600.00, 2350.00 ]
-CORE_AREA: [ 365, 365, 2235, 1985 ]
+DIE_AREA:  [   0,   0, 2600, 2300 ]
+CORE_AREA: [ 365, 365, 2235, 1935 ]
 FP_MACRO_HORIZONTAL_HALO: 10
 FP_MACRO_VERTICAL_HALO: 5
-FP_CORE_UTIL: 40
+FP_CORE_UTIL: 30
 
 EXTRA_GDS:
 - pdk_dir::libs.ref/sg13g2_io/gds/sg13g2_io.gds
@@ -109,28 +109,28 @@ MACROS:
         - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0:
-        location: [375.28, 371.66]
+        location: [346.48, 330.08]
         orientation: S
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1:
-        location: [612.08, 371.66]
+        location: [583.28, 330.08]
         orientation: S
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0:
-        location: [375.28, 735.84]
+        location: [346.48, 690.48]
         orientation: FN
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1:
-        location: [612, 735.84]
+        location: [583.28, 690.48]
         orientation: FN
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0:
-        location: [848.88, 371.66]
+        location: [820.08, 330.08]
         orientation: FS
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1:
-        location: [1085.68, 371.66]
+        location: [1056.88, 330.08]
         orientation: FS
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0:
-        location: [848.88, 735.84]
+        location: [820.08, 690.48]
         orientation: N
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1:
-        location: [1085.68, 735.84]
+        location: [1056.88, 690.48]
         orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist: 
     gds: 
@@ -148,11 +148,21 @@ MACROS:
         - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_0_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0:
-        location: [1808.24, 466.16]
+        # location: [1391.60, 427.36]
+        # orientation: S
+        location: [1857.56, 330.08]
+        # location: [1848.88, 330.08]
         orientation: S
+        # location: [1808.24, 409.46]
+        # orientation: S
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_1_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0:
-        location: [1808.24, 695.74]
+        # location: [1808.24, 427.36]
+        # orientation: FS
+        location: [1857.56, 559.66]
+        # location: [1848.88, 559.66]
         orientation: FN
+        # location: [1808.24, 639.04]
+        # orientation: FN
   RM_IHPSG13_1P_64x64_c2_bm_bist: 
     gds: 
       - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_64x64_c2_bm_bist.gds
@@ -169,36 +179,14 @@ MACROS:
         - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_tag_array_0.rockettile_icache_tag_array_0_ext.mem_0_0:
-        location: [1440.4, 371.66]
-        orientation: S
-  # RM_IHPSG13_1P_1024x8_c2_bm_bist: 
-  #   gds: 
-  #     - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_1024x8_c2_bm_bist.gds
-  #   lef:
-  #     - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_1024x8_c2_bm_bist.lef 
-  #   nl:
-  #     - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_1024x8_c2_bm_bist.v
-  #   lib:
-  #     "nom_typ_1p20V_25C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x8_c2_bm_bist_typ_1p20V_25C.lib
-  #     "nom_fast_1p32V_m40C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x8_c2_bm_bist_fast_1p32V_m55C.lib
-  #     "nom_slow_1p08V_125C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x8_c2_bm_bist_slow_1p08V_125C.lib
-  # RM_IHPSG13_2P_64x32_c2: 
-  #   gds: 
-  #     - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_2P_64x32_c2.gds
-  #   lef:
-  #     - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_2P_64x32_c2.lef 
-  #   nl:
-  #     - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_2P_64x32_c2.v
-  #   lib:
-  #     "nom_typ_1p20V_25C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_64x32_c2_typ_1p20V_25C.lib
-  #     "nom_fast_1p32V_m40C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_64x32_c2_fast_1p32V_m55C.lib
-  #     "nom_slow_1p08V_125C":
-  #       - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_2P_64x32_c2_slow_1p08V_125C.lib
+        # location: [1440.4, 330.08]
+        # orientation: S
+        location: [1489.72, 1350]
+        # location: [2270.52, 366.66]
+        # orientation: E
+        # location: [1440.4, 330.08]
+        orientation: N
+        
 
 PDN_MACRO_CONNECTIONS:
   - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDD! VSS!"
@@ -228,25 +216,25 @@ PDN_MACRO_CONNECTIONS:
 # Padring
 PAD_TCL: dir::pad.tcl
 PAD_IO_WEST: [
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[8\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[9\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[10\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[11\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[12\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[13\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[14\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[15\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[16\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[17\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[18\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[19\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[20\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[21\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[22\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[23\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[24\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[25\\].sg13g2_IOPad_stl_in_bits"],
-    [sg13g2_IOPadIn,     "sg13g2_IOPad_gen\\[26\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[8\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[9\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[10\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[11\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[12\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[13\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[14\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[15\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[16\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[17\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[18\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[19\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[20\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[21\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[22\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[23\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[24\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[25\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[26\\].sg13g2_IOPad_stl_in_bits"],
 ]
 PAD_IO_NORTH: [
     [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[27\\].sg13g2_IOPad_stl_in_bits"],
@@ -256,10 +244,10 @@ PAD_IO_NORTH: [
     [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[31\\].sg13g2_IOPad_stl_in_bits"],
     [sg13g2_IOPadOut30mA,     sg13g2_IOPad_stl_in_ready],
     [sg13g2_IOPadIn,          sg13g2_IOPad_stl_in_valid],
-    [sg13g2_IOPadIn,          sg13g2_IOPad_stl_clock],
     [sg13g2_IOPadOut30mA,     sg13g2_IOPad_uart_tx],
     [sg13g2_IOPadIn,          sg13g2_IOPad_uart_rx],
     [sg13g2_IOPadIn,          sg13g2_IOPad_boot],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_stl_clock],
     [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TCK],
     [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TMS],
     [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TDI],

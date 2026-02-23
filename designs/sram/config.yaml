@@ -1,0 +1,120 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+# Based on https://github.com/mole99/greyhound-ihp by Leo Moser
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    Checker.DisconnectedPins: null
+    Magic.DRC: Null
+    KLayout.DRC: Null
+
+DESIGN_NAME: DCacheDataArray
+CLOCK_PERIOD: 25
+CLOCK_NET: clock
+
+LIB:
+  nom_typ_1p20V_25C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+  nom_fast_1p32V_m40C: 
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+  nom_slow_1p08V_125C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+
+VERILOG_DEFINES:
+- FUNCTIONAL
+
+USE_SLANG: True
+
+VERILOG_FILES:
+- dir::DCacheDataArray.sv
+- dir::rockettile_dcache_data_arrays_0.sv
+- dir::rockettile_dcache_data_arrays_1.sv
+- dir::mems.v
+
+# Floorplanning
+FP_SIZING: absolute
+DIE_AREA:  [ 0.00, 0.00, 1650.00, 1075.00 ]
+CORE_AREA: [ 50, 50, 1600, 1025 ]
+FP_MACRO_HORIZONTAL_HALO: 10
+FP_MACRO_VERTICAL_HALO: 5
+# IO_PIN_ORDER_CFG: dir::pin_order.cfg
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+PDN_CFG: dir::pdn.tcl
+
+# SDC
+PNR_SDC_FILE: dir::constraint.sdc
+SIGNOFF_SDC_FILE: dir::constraint.sdc
+FALLBACK_SDC: dir::constraint.sdc
+
+#MAGIC_EXT_USE_GDS: false
+
+MACROS:
+  RM_IHPSG13_1P_1024x16_c2_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_1024x16_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_1024x16_c2_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_1024x16_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0:
+        location: [600.0, 300.0]
+        orientation: S
+      rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1:
+        location: [836.8, 300.0]
+        orientation: S
+      rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0:
+        location: [600.0, 663.54]
+        orientation: FN
+      rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1:
+        location: [836.8, 663.54]
+        orientation: FN
+      rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0:
+        location: [1073.6, 300.0]
+        orientation: FS
+      rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1:
+        location: [1310.4, 300.0]
+        orientation: FS
+      rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0:
+        location: [1073.6, 663.54]
+        orientation: N
+      rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1:
+        location: [1310.4, 663.54]
+        orientation: N
+        
+PDN_MACRO_CONNECTIONS:
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDDARRAY! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDD! VSS!"
+  - "rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDDARRAY! VSS!"
+  
+  

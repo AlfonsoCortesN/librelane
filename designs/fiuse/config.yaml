@@ -1,0 +1,85 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    Checker.DisconnectedPins: null
+    Magic.DRC: Null
+    KLayout.DRC: Null
+
+DESIGN_NAME: security_peripheral
+CLOCK_PERIOD: 25
+CLOCK_NET: clock
+
+VERILOG_DEFINES:
+- FUNCTIONAL
+USE_SLANG: True
+
+LIB:
+  nom_typ_1p20V_25C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+  nom_fast_1p32V_m40C: 
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+  nom_slow_1p08V_125C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+
+VERILOG_DEFINES:
+- FUNCTIONAL
+
+VERILOG_FILES:
+- dir::src/security_peripheral.sv
+- dir::src/secret_generator.sv
+- dir::src/cumulator.sv
+
+# Floorplanning
+BOTTOM_MARGIN_MULT: 13
+TOP_MARGIN_MULT: 13
+LEFT_MARGIN_MULT: 100
+RIGHT_MARGIN_MULT: 100
+# FP_SIZING: absolute
+# DIE_AREA:  [ 0.00, 0.00, 800.00, 800.00 ]
+# CORE_AREA: [ 50, 50, 750, 750 ]
+IO_PIN_ORDER_CFG: dir::pin_order.cfg
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+PDN_CFG: dir::pdn.tcl
+
+# SDC
+PNR_SDC_FILE: dir::constraint.sdc
+SIGNOFF_SDC_FILE: dir::constraint.sdc
+FALLBACK_SDC: dir::constraint.sdc
+
+MACROS:
+  RM_IHPSG13_1P_256x8_c3_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_256x8_c3_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_256x8_c3_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_256x8_c3_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x8_c3_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x8_c3_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x8_c3_bm_bist_slow_1p08V_125C.lib
+    instances:
+      Memory:
+        location: [50, 50.00]
+        orientation: S
+        
+PDN_MACRO_CONNECTIONS:
+  - "Memory VDD2 VSS VDDARRAY! VSS!"
+  - "Memory VDD1 VSS VDD! VSS!"
+  
+  

@@ -1,0 +1,626 @@
+# ===========================================================================
+# Main flow configuration file
+# Alfonso Cortés - Inria AIO
+# TinyRocket RISC-V core generated using Chipyard
+#
+# ===========================================================================
+
+meta:
+  version: 2
+  flow: Classic
+  substituting_steps:
+    OpenROAD.GlobalPlacementSkipIO: null
+    OpenROAD.IOPlacement: null
+    +OpenROAD.Floorplan: OpenROAD.Padring
+    Magic.DRC: Null
+    KLayout.DRC: Null
+    #OpenROAD.ResizerTimingPostCTS: Null
+    Checker.DisconnectedPins: Null
+
+DESIGN_NAME: topmodule
+CLOCK_PERIOD: 25
+CLOCK_NET: clock_pad
+
+LIB:
+  nom_typ_1p20V_25C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_typ_1p2V_3p3V_25C.lib
+  nom_fast_1p32V_m40C: 
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_fast_1p32V_3p6V_m40C.lib
+  nom_slow_1p08V_125C:
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_slow_1p08V_3p0V_125C.lib
+
+VERILOG_DEFINES:
+- FUNCTIONAL
+- SYNTHESIS
+
+USE_SLANG: True
+LINTER_ERROR_ON_LATCH: False
+
+# Floorplanning
+FP_SIZING: absolute
+DIE_AREA:  [   0,   0, 2500, 2500 ]
+CORE_AREA: [ 365, 365, 2135, 2135 ]
+FP_MACRO_HORIZONTAL_HALO: 10
+FP_MACRO_VERTICAL_HALO: 5
+FP_CORE_UTIL: 30
+
+EXTRA_GDS:
+- pdk_dir::libs.ref/sg13g2_io/gds/sg13g2_io.gds
+- dir::ihp-sg13g2/bondpad_70x70.gds
+EXTRA_LEFS:
+- pdk_dir::libs.ref/sg13g2_io/lef/sg13g2_io.lef
+- dir::ihp-sg13g2/bondpad_70x70.lef
+EXTRA_LEFS_NO_OBS:
+- dir::ihp-sg13g2/sg13g2_io_noobs.lef
+- dir::ihp-sg13g2/bondpad_70x70.lef
+
+# PDN
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+PDN_CFG: dir::pdn_pads.tcl
+IGNORE_DISCONNECTED_MODULES:
+- bondpad_70x70
+
+# P&R
+GPL_CELL_PADDING: 4
+PL_MAX_DISPLACEMENT_X: 600
+PL_MAX_DISPLACEMENT_Y: 300
+# DPL_CELL_PADDING: 2
+GRT_ALLOW_CONGESTION: True
+
+# SDC
+PNR_SDC_FILE: dir::constraint_pads.sdc
+SIGNOFF_SDC_FILE: dir::constraint_pads.sdc
+FALLBACK_SDC: dir::constraint_pads.sdc
+
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+
+MAGIC_EXT_USE_GDS: false
+MAGIC_EXT_ABSTRACT_CELLS:
+- RM_IHPSG13_1P_1024x16_c2_bm_bist
+- RM_IHPSG13_1P_512x32_c2_bm_bist
+- RM_IHPSG13_1P_64x64_c2_bm_bist
+- bondpad_70x70
+- sg13g2_IOPadInOut30mA
+- sg13g2_IOPadIn
+- sg13g2_IOPadOut30mA
+- sg13g2_IOPadIOVdd
+- sg13g2_IOPadIOVss
+- sg13g2_IOPadVss
+- sg13g2_IOPadVdd
+
+MACROS:
+  RM_IHPSG13_1P_1024x16_c2_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_1024x16_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_1024x16_c2_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_1024x16_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_1024x16_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0:
+        location: [346.48, 330.08]
+        orientation: S
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1:
+        location: [583.28, 330.08]
+        orientation: S
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0:
+        location: [346.48, 690.48]
+        orientation: FN
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1:
+        location: [583.28, 690.48]
+        orientation: FN
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0:
+        location: [820.08, 330.08]
+        orientation: FS
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1:
+        location: [1056.88, 330.08]
+        orientation: FS
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0:
+        location: [820.08, 690.48]
+        orientation: N
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1:
+        location: [1056.88, 690.48]
+        orientation: N
+  RM_IHPSG13_1P_512x32_c2_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_512x32_c2_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_512x32_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_0_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0:
+        location: [1757.56, 330.08]
+        orientation: S
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_1_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0:
+        location: [1757.56, 559.66]
+        orientation: FN
+  RM_IHPSG13_1P_64x64_c2_bm_bist: 
+    gds: 
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_64x64_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_64x64_c2_bm_bist.lef 
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_64x64_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_64x64_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_tag_array_0.rockettile_icache_tag_array_0_ext.mem_0_0:
+        location: [346.48, 1026.94]
+        orientation: S
+        
+
+PDN_MACRO_CONNECTIONS:
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_0.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_0_1 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.dcache.data.rockettile_dcache_data_arrays_1.rockettile_dcache_data_arrays_0_ext.mem_1_1 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_tag_array_0.rockettile_icache_tag_array_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_tag_array_0.rockettile_icache_tag_array_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_0_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_0_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_1_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0 VDD VSS VDD! VSS!"
+  - "chip_top.system.tile_prci_domain.element_reset_domain_rockettile.frontend.icache.rockettile_icache_data_arrays_1_0.rockettile_icache_data_arrays_0_0_ext.mem_0_0 VDD VSS VDDARRAY! VSS!"
+
+
+# Padring
+PAD_TCL: dir::pad.tcl
+PAD_IO_WEST: [
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[8\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[9\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[10\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[11\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[12\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[13\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[14\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[15\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[16\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[17\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[18\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[19\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[20\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[21\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[22\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[23\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[24\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[25\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,      "sg13g2_IOPad_gen\\[26\\].sg13g2_IOPad_stl_in_bits"],
+]
+PAD_IO_NORTH: [
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[27\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[28\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[29\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[30\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[31\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadOut30mA,     sg13g2_IOPad_stl_in_ready],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_stl_in_valid],
+    [sg13g2_IOPadOut30mA,     sg13g2_IOPad_uart_tx],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_uart_rx],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_boot],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_stl_clock],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TCK],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TMS],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_jtag_TDI],
+    [sg13g2_IOPadOut30mA,     sg13g2_IOPad_jtag_TDO],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_stl_out_ready],
+    [sg13g2_IOPadOut30mA,     sg13g2_IOPad_stl_out_valid],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[31\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[30\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[29\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[28\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[27\\].sg13g2_IOPad_stl_out_bits"],
+]
+PAD_IO_EAST: [
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[8\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[9\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[10\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[11\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[12\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[13\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[14\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[15\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[16\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[17\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[18\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[19\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[20\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[21\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[22\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[23\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[24\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[25\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[26\\].sg13g2_IOPad_stl_out_bits"],
+]
+PAD_IO_SOUTH: [
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[7\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[6\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[5\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[4\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[3\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[2\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[1\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadIn,          "sg13g2_IOPad_gen\\[0\\].sg13g2_IOPad_stl_in_bits"],
+    [sg13g2_IOPadVdd,         sg13g2_IOPad_vdd],
+    [sg13g2_IOPadVss,         sg13g2_IOPad_vss],
+    [sg13g2_IOPadIOVdd,       sg13g2_IOPad_vddio],
+    [sg13g2_IOPadOut30mA,     sg13g2_IOPad_clock_tap],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_clock],
+    [sg13g2_IOPadIn,          sg13g2_IOPad_reset],
+    [sg13g2_IOPadIOVss,       sg13g2_IOPad_vssio],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[0\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[1\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[2\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[3\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[4\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[5\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[6\\].sg13g2_IOPad_stl_out_bits"],
+    [sg13g2_IOPadOut30mA,     "sg13g2_IOPad_gen\\[7\\].sg13g2_IOPad_stl_out_bits"],
+]
+
+VERILOG_FILES:
+- dir::topmodule.v
+- pdk_dir::libs.ref/sg13g2_io/verilog/sg13g2_io.v
+- dir::src_b/TLBuffer_a14d64s7k1z4u.sv
+- dir::src_b/ram_2x116_TestHarness_UNIQUIFIED.sv
+- dir::src_b/plusarg_reader.v
+- dir::src_b/TLUART.sv
+- dir::src_b/Rocket.sv
+- dir::src_b/TLMonitor_45.sv
+- dir::src_b/PMPChecker_s2.sv
+- dir::src_b/TLXbar_pbus_out_i1_o2_a29d64s7k1z3u.sv
+- dir::src_b/LevelGateway.sv
+- dir::src_b/AsyncQueueSink_Phit_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Queue1_TLBundleA_a64d64s8k8z8c.sv
+- dir::src_b/ICache.sv
+- dir::src_b/TLMonitor_44.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w1_d3_i0.sv
+- dir::src_b/PhitArbiter_p32_f32_n5_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_clint.sv
+- dir::src_b/ClockGroupAggregator_allClocks.sv
+- dir::src_b/IntXbar_i3_o1.sv
+- dir::src_b/TLMonitor_14.sv
+- dir::src_b/ram_2x77_TestHarness_UNIQUIFIED.sv
+- dir::src_b/BreakpointUnit.sv
+- dir::src_b/SerialTL0ClockSinkDomain.sv
+- dir::src_b/AsyncQueueSink_TLBundleD_a9d32s1k1z2u.sv
+- dir::src_b/rockettile_icache_tag_array_0.sv
+- dir::src_b/TLMonitor_32.sv
+- dir::src_b/TLFragmenter_PLIC.sv
+- dir::src_b/TLMonitor_37.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w1_d3_i0_1.sv
+- dir::src_b/ClockCrossingReg_w32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/GenericDeserializer_TLBeatw88_f32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLDebugModuleOuter.sv
+- dir::src_b/TLSerdesser_SerialRAM.sv
+- dir::src_b/ram_2x110.sv
+- dir::src_b/DigitalTop.sv
+- dir::src_b/TestHarness.sv
+- dir::src_b/AsyncQueueSource_DebugInternalBundle.sv
+- dir::src_b/Queue8_UInt8_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLFragmenter_UART.sv
+- dir::src_b/JtagBypassChain.sv
+- dir::src_b/GenericSerializer_TLBeatw88_f32.sv
+- dir::src_b/ClockGroupCombiner.sv
+- dir::src_b/PhitDemux_p32_f32_n5.sv
+- dir::src_b/CLINTClockSinkDomain.sv
+- dir::src_b/ram_2x116.sv
+- dir::src_b/TLCToBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/ram_2x82.sv
+- dir::src_b/ClockSourceAtFreqMHz.v
+- dir::src_b/BundleBridgeNexus_UInt1_2.sv
+- dir::src_b/ram_2x104.sv
+- dir::src_b/UARTRx_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Queue1_RegMapperInput_i23_m8.sv
+- dir::src_b/TLSerdesser_serial_tl_0.sv
+- dir::src_b/UARTTx_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Repeater_TLBundleA_a12d64s7k1z3u.sv
+- dir::src_b/AMOALU.sv
+- dir::src_b/TLBuffer_a32d64s1k1z4u_2.sv
+- dir::src_b/TLError.sv
+- dir::src_b/ChipTop.sv
+- dir::src_b/IntSyncCrossingSource_n1x2.sv
+- dir::src_b/plusarg_reader_TestHarness_UNIQUIFIED.v
+- dir::src_b/TLMonitor_21.sv
+- dir::src_b/TLDebugModule.sv
+- dir::src_b/TLAtomicAutomata_pbus.sv
+- dir::src_b/TLMonitor_33.sv
+- dir::src_b/Queue2_TLBundleD_a32d64s5k1z4u.sv
+- dir::src_b/Queue2_TLBundleA_a29d64s7k1z3u.sv
+- dir::src_b/CaptureUpdateChain_DTMInfo_To_DTMInfo.sv
+- dir::src_b/rockettile_icache_data_arrays_1_0.sv
+- dir::src_b/TLMonitor_42.sv
+- dir::src_b/TLXbar_cbus_in_i2_o1_a32d64s7k1z4u.sv
+- dir::src_b/AsyncResetRegVec_w2_i0.sv
+- dir::src_b/Repeater_TLBundleA_a26d64s7k1z3u.sv
+- dir::src_b/TLXbar_fbus_i2_o1_a32d64s5k1z4u.sv
+- dir::src_b/rockettile_dcache_data_arrays_0.sv
+- dir::src_b/Queue2_TLBundleD_a29d64s7k1z3u.sv
+- dir::src_b/SimJTAG.v
+- dir::src_b/RocketTile.sv
+- dir::src_b/TLMonitor_9.sv
+- dir::src_b/DCacheDataArray.sv
+- dir::src_b/Queue2_TLBundleD_a32d64s4k1z4u.sv
+- dir::src_b/AsyncQueueSource_Phit_TestHarness_UNIQUIFIED.sv
+- dir::src_b/MulDiv.sv
+- dir::src_b/ChipyardPRCICtrlClockSinkDomain.sv
+- dir::src_b/SystemBus.sv
+- dir::src_b/GenericDigitalInIOCell.v
+- dir::src_b/TLBuffer_a32d32s7k1z3u_1.sv
+- dir::src_b/OptimizationBarrier_TLBEntryData.sv
+- dir::src_b/ClockCrossingReg_w55.sv
+- dir::src_b/InferredResetSynchronizerPrimitiveShiftReg_d3_i0.sv
+- dir::src_b/Queue2_TLBundleA_a32d64s4k1z4u.sv
+- dir::src_b/TLAFromBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/TLMonitor_25.sv
+- dir::src_b/TLAsyncCrossingSink_a9d32s1k1z2u.sv
+- dir::src_b/DCache.sv
+- dir::src_b/TLMonitor_24.sv
+- dir::src_b/Queue2_TLBundleD_a32d8s1k1z4u.sv
+- dir::src_b/GenericDeserializer_TLBeatw87_f32.sv
+- dir::src_b/GenericDeserializer_TLBeatw10_f32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/IntSyncCrossingSource_n1x1_Registered.sv
+- dir::src_b/TLAToBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/TLMonitor_19.sv
+- dir::src_b/ram_2x83.sv
+- dir::src_b/TLMonitor_6.sv
+- dir::src_b/NonSyncResetSynchronizerPrimitiveShiftReg_d3.sv
+- dir::src_b/TLBFromBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/Queue2_TLBundleD_a32d64s1k1z4u.sv
+- dir::src_b/extern_modules.sv
+- dir::src_b/IntXbar_i1_o1.sv
+- dir::src_b/ResetCatchAndSync_d3.sv
+- dir::src_b/FrontBus.sv
+- dir::src_b/AsyncQueueSource_TLBundleD_a9d32s1k1z2u.sv
+- dir::src_b/ClockCrossingReg_w43.sv
+- dir::src_b/TLMonitor_16.sv
+- dir::src_b/ShiftQueue.sv
+- dir::src_b/TLMonitor_28.sv
+- dir::src_b/rockettile_icache_data_arrays_0_0.sv
+- dir::src_b/TLFragmenter_TileClockGater.sv
+- dir::src_b/TLDFromBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/IntSyncSyncCrossingSink_n1x1.sv
+- dir::src_b/TLInterconnectCoupler_fbus_from_port_named_serial_tl_0_in.sv
+- dir::src_b/ALU.sv
+- dir::src_b/SerialRAM.sv
+- dir::src_b/ErrorDeviceWrapper.sv
+- dir::src_b/Queue2_TLBundleA_a21d64s7k1z3u.sv
+- dir::src_b/DecoupledSerialPhy.sv
+- dir::src_b/DMIToTL.sv
+- dir::src_b/PMAChecker.sv
+- dir::src_b/TLWidthWidget1.sv
+- dir::src_b/Repeater_TLBundleA_a29d64s7k1z3u.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_rockettile.sv
+- dir::src_b/TLDFromBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/TLInterconnectCoupler_pbus_to_bootaddressreg.sv
+- dir::src_b/TLXbar_MasterXbar_RocketTile_i2_o1_a32d64s1k1z4u.sv
+- dir::src_b/TLMonitor_3.sv
+- dir::src_b/ClockGroupResetSynchronizer.sv
+- dir::src_b/DebugTransportModuleJTAG.sv
+- dir::src_b/TLFragmenter_TileResetSetter.sv
+- dir::src_b/ram_flit_8x32.sv
+- dir::src_b/ResetSynchronizerShiftReg_w1_d3_i0.sv
+- dir::src_b/TLBuffer_a29d64s7k1z3u.sv
+- dir::src_b/TLDebugModuleInner.sv
+- dir::src_b/TLMonitor_17.sv
+- dir::src_b/TLXbar_prcibus_i1_o2_a21d64s7k1z3u.sv
+- dir::src_b/HellaCacheArbiter.sv
+- dir::src_b/TLXbar_dmixbar_i1_o2_a9d32s1k1z2u.sv
+- dir::src_b/FlitToPhit_f32_p32.sv
+- dir::src_b/PeripheryBus_cbus.sv
+- dir::src_b/ram_2x120.sv
+- dir::src_b/AsyncQueue_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLMonitor_40.sv
+- dir::src_b/rf_31x32.sv
+- dir::src_b/TLBToBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/PlusArgTimeout.sv
+- dir::src_b/AsyncQueueSource_TLBundleA_a9d32s1k1z2u.sv
+- dir::src_b/TLMonitor_10.sv
+- dir::src_b/PhitToFlit_p32_f32.sv
+- dir::src_b/TLMonitor_12.sv
+- dir::src_b/Queue2_TLBundleA_a32d64s1k1z4u_TestHarness_UNIQUIFIED.sv
+- dir::src_b/CaptureChain_JTAGIdcodeBundle.sv
+- dir::src_b/TLROM.sv
+- dir::src_b/TLMonitor_18.sv
+- dir::src_b/TLEFromBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/TLMonitor_8.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w4_d3_i0.sv
+- dir::src_b/PLICFanIn.sv
+- dir::src_b/ram_2x81.sv
+- dir::src_b/Repeater_TLBundleD_a32d64s1k1z4u.sv
+- dir::src_b/TLMonitor_26.sv
+- dir::src_b/GenericDeserializer_TLBeatw10_f32.sv
+- dir::src_b/TLBuffer_a32d64s5k1z4u.sv
+- dir::src_b/GenericSerializer_TLBeatw67_f32.sv
+- dir::src_b/ram_2x50.sv
+- dir::src_b/EICG_wrapper.v
+- dir::src_b/TilePRCIDomain.sv
+- dir::src_b/JtagStateMachine.sv
+- dir::src_b/FlitToPhit_f32_p32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Repeater_TLBundleA_a21d64s7k1z3u.sv
+- dir::src_b/TLAtomicAutomata_cbus.sv
+- dir::src_b/AsyncValidSync_TestHarness_UNIQUIFIED.sv
+- dir::src_b/PTW.sv
+- dir::src_b/TLMonitor_2.sv
+- dir::src_b/Arbiter3_LLWB.sv
+- dir::src_b/RVCExpander.sv
+- dir::src_b/TLMonitor_41.sv
+- dir::src_b/PhitToFlit_p32_f32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLXbar_cbus_out_i1_o8_a32d64s7k1z4u.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w1_d3_i0_TestHarness_UNIQUIFIED.sv
+- dir::src_b/AsyncQueueSink_TLBundleA_a9d32s1k1z2u.sv
+- dir::src_b/Queue2_TLBundleA_a32d64s5k1z4u.sv
+- dir::src_b/ram_2x118.sv
+- dir::src_b/TLUARTClockSinkDomain.sv
+- dir::src_b/TLWidthWidget8_4.sv
+- dir::src_b/IBuf.sv
+- dir::src_b/SimUART.v
+- dir::src_b/Repeater_TLBundleA_a28d64s7k1z3u.sv
+- dir::src_b/PLICClockSinkDomain.sv
+- dir::src_b/TLEToBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/Repeater_TLBundleA_a32d64s7k1z3u.sv
+- dir::src_b/ram_2x122.sv
+- dir::src_b/Repeater_TLBundleA_a13d64s7k1z3u.sv
+- dir::src_b/UARTRx.sv
+- dir::src_b/TLFragmenter_Debug.sv
+- dir::src_b/TLMonitor_4.sv
+- dir::src_b/Queue2_TLBundleD_a32d32s7k1z3u.sv
+- dir::src_b/ram_2x80.sv
+- dir::src_b/TileResetSetter.sv
+- dir::src_b/TLAFromBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/Queue2_TLBundleA_a32d64s1k1z4u.sv
+- dir::src_b/GenericDeserializer_TLBeatw87_f32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLFragmenter_BootAddrReg.sv
+- dir::src_b/Arbiter2_Valid_PTWReq.sv
+- dir::src_b/TLMonitor_7.sv
+- dir::src_b/TLMonitor_36.sv
+- dir::src_b/ram_2x84.sv
+- dir::src_b/TLMonitor_5.sv
+- dir::src_b/AsyncResetRegVec_w1_i1.sv
+- dir::src_b/TLMonitor.sv
+- dir::src_b/TLMonitor_46.sv
+- dir::src_b/ram_8x8_TestHarness_UNIQUIFIED.sv
+- dir::src_b/ResetCatchAndSync_d3_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Queue1_TLBundleA_a14d64s7k1z4u.sv
+- dir::src_b/TLDebugModuleOuterAsync.sv
+- dir::src_b/IntSyncAsyncCrossingSink_n1x1.sv
+- dir::src_b/PeripheryBus_pbus.sv
+- dir::src_b/DecoupledSerialPhy_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLBuffer_a32d64s7k1z4u.sv
+- dir::src_b/UARTAdapter.sv
+- dir::src_b/Queue2_TLBundleA_a32d32s7k1z3u.sv
+- dir::src_b/TLMonitor_43.sv
+- dir::src_b/CaptureUpdateChain_UInt5_To_UInt5.sv
+- dir::src_b/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_plic.sv
+- dir::src_b/TLEFromBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/Queue2_TLBundleA_a14d64s7k1z4u.sv
+- dir::src_b/Queue2_TLBundleD_a14d64s7k1z4u.sv
+- dir::src_b/TSIToTileLink.sv
+- dir::src_b/AsyncQueueSource_Phit.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_prci_ctrl.sv
+- dir::src_b/TLBuffer_a29d64s7k1z3u_1.sv
+- dir::src_b/GenericDeserializer_TLBeatw88_f32.sv
+- dir::src_b/TLDebugModuleInnerAsync.sv
+- dir::src_b/Frontend.sv
+- dir::src_b/SynchronizerShiftReg_w1_d3.sv
+- dir::src_b/TLMonitor_35.sv
+- dir::src_b/AsyncValidSync.sv
+- dir::src_b/FixedClockBroadcast_2.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w4_d3_i0_TestHarness_UNIQUIFIED.sv
+- dir::src_b/AsyncQueueSink_DebugInternalBundle.sv
+- dir::src_b/AsyncQueue.sv
+- dir::src_b/TLMonitor_13.sv
+- dir::src_b/CaptureUpdateChain_DMIAccessCapture_To_DMIAccessUpdate.sv
+- dir::src_b/TileClockGater.sv
+- dir::src_b/Queue2_TLBundleD_a32d64s7k1z4u.sv
+- dir::src_b/TLMonitor_22.sv
+- dir::src_b/TLMonitor_30.sv
+- dir::src_b/ram_flit_8x32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLFragmenter_1.sv
+- dir::src_b/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0.sv
+- dir::src_b/FixedClockBroadcast_7.sv
+- dir::src_b/IntSyncCrossingSource_n1x1.sv
+- dir::src_b/TLCFromBeat_SerialRAM_a64d64s8k8z8c.sv
+- dir::src_b/Queue8_Flit_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLFragmenter_BootROM.sv
+- dir::src_b/GenericDeserializer_TLBeatw67_f32_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Repeater_TLBundleA_a32d32s7k1z3u.sv
+- dir::src_b/JtagTapController.sv
+- dir::src_b/AsyncResetSynchronizerShiftReg_w1_d3_i0_1_TestHarness_UNIQUIFIED.sv
+- dir::src_b/Queue2_TLBundleD_a32d64s1k1z4u_TestHarness_UNIQUIFIED.sv
+- dir::src_b/TLMonitor_29.sv
+- dir::src_b/IntSyncSyncCrossingSink_n1x2.sv
+- dir::src_b/TLBusBypassBar.sv
+- dir::src_b/chipyard.harness.TestHarness.MyRocketConfig.top.mems.v
+- dir::src_b/Repeater_TLBundleA_a17d64s7k1z3u.sv
+- dir::src_b/TLMonitor_20.sv
+- dir::src_b/TLMonitor_23.sv
+- dir::src_b/TLMonitor_11.sv
+- dir::src_b/TLDToBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/TLCFromBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/SBToTL.sv
+- dir::src_b/rockettile_dcache_data_arrays_1.sv
+- dir::src_b/TLMonitor_31.sv
+- dir::src_b/Queue8_UInt8.sv
+- dir::src_b/TLMonitor_1.sv
+- dir::src_b/GenericSerializer_TLBeatw10_f32.sv
+- dir::src_b/ram_2x10.sv
+- dir::src_b/Queue1_TLBundleD_a64d64s8k8z8c.sv
+- dir::src_b/TLBuffer_a21d64s7k1z3u.sv
+- dir::src_b/GenericSerializer_TLBeatw87_f32.sv
+- dir::src_b/TLBFromBeat_serial_tl_0_a64d64s8k8z8c.sv
+- dir::src_b/TLFragmenter_CLINT.sv
+- dir::src_b/PhitArbiter_p32_f32_n5.sv
+- dir::src_b/AsyncResetRegVec_w1_i0.sv
+- dir::src_b/SimTSI.v
+- dir::src_b/CSRFile.sv
+- dir::src_b/UARTTx.sv
+- dir::src_b/TLMonitor_27.sv
+- dir::src_b/ScratchpadSlavePort.sv
+- dir::src_b/TLBuffer_a32d64s1k1z4u_1.sv
+- dir::src_b/TLXbar_sbus_i2_o1_a32d64s6k1z4u.sv
+- dir::src_b/AsyncQueueSink_Phit.sv
+- dir::src_b/ram_8x8.sv
+- dir::src_b/Queue8_Flit.sv
+- dir::src_b/ITLB.sv
+- dir::src_b/ClockCrossingReg_w32.sv
+- dir::src_b/GenericDeserializer_TLBeatw67_f32.sv
+- dir::src_b/TLBusBypass.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_debug.sv
+- dir::src_b/PhitDemux_p32_f32_n5_TestHarness_UNIQUIFIED.sv
+- dir::src_b/ClockCrossingReg_w15.sv
+- dir::src_b/BootROMClockSinkDomain.sv
+- dir::src_b/CLINT.sv
+- dir::src_b/Queue2_TLBundleA_a32d64s7k1z4u.sv
+- dir::src_b/TLAsyncCrossingSource_a9d32s1k1z2u.sv
+- dir::src_b/GenericDigitalOutIOCell.v
+- dir::src_b/TLPLIC.sv
+- dir::src_b/TLInterconnectCoupler_pbus_to_device_named_uart_0.sv
+- dir::src_b/TLError_1.sv
+- dir::src_b/Queue2_TLBundleD_a21d64s7k1z3u.sv
+- dir::src_b/ram_2x119.sv
+- dir::src_b/TLMonitor_39.sv
+- dir::src_b/TLInterconnectCoupler_fbus_from_debug_sb.sv
+- dir::src_b/TLMonitor_38.sv
+- dir::src_b/TLInterconnectCoupler_cbus_to_bootrom.sv
+- dir::src_b/FixedClockBroadcast_4.sv
+- dir::src_b/TLMonitor_34.sv
+- dir::src_b/ram_2x77.sv
+- dir::src_b/TLBuffer_a32d64s4k1z4u.sv

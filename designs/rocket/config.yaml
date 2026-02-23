@@ -11,7 +11,6 @@ meta:
   substituting_steps:
     Magic.DRC: Null
     KLayout.DRC: Null
-    #OpenROAD.ResizerTimingPostCTS: Null
     Checker.DisconnectedPins: Null
 
 DESIGN_NAME: ChipTop
